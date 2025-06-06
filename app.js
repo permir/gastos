@@ -4,8 +4,10 @@ const cantidadInput = document.getElementById('cantidad');
 const categoriaInput = document.getElementById('categoria');
 const listaGastos = document.getElementById('lista-gastos');
 const totalSpan = document.getElementById('total');
+const ctx = document.getElementById('graficoCategorias');
 
 let gastos = [];
+let grafico;
 
 form.addEventListener('submit', function (e) {
   e.preventDefault();
@@ -15,11 +17,21 @@ form.addEventListener('submit', function (e) {
   const categoria = categoriaInput.value;
 
   if (descripcion && !isNaN(cantidad) && categoria) {
-    const gasto = { descripcion, cantidad, categoria };
-    gastos.push(gasto);
-    actualizarLista();
-    actualizarTotal();
-    guardarGastos();
+    const gasto = {
+      descripcion,
+      cantidad,
+      categoria,
+      fecha: new Date()
+    };
+
+    db.collection("gastos").add(gasto)
+      .then(() => {
+        console.log("✅ Gasto guardado en Firebase");
+        cargarGastos();  // recargar lista
+      })
+      .catch((error) => {
+        console.error("❌ Error al guardar en Firebase: ", error);
+      });
 
     descripcionInput.value = '';
     cantidadInput.value = '';
@@ -27,72 +39,32 @@ form.addEventListener('submit', function (e) {
   }
 });
 
+function cargarGastos() {
+  db.collection("gastos").orderBy("fecha", "desc").get()
+    .then((querySnapshot) => {
+      gastos = [];
+      querySnapshot.forEach((doc) => {
+        gastos.push(doc.data());
+      });
+      actualizarLista();
+      actualizarTotal();
+      actualizarGrafico();
+    });
+}
+
 function actualizarLista() {
   listaGastos.innerHTML = '';
-  gastos.forEach((gasto, index) => {
+  gastos.forEach((gasto) => {
     const li = document.createElement('li');
     li.textContent = `${gasto.categoria} – ${gasto.descripcion}: $${gasto.cantidad.toFixed(2)}`;
-
-    const btnEliminar = document.createElement('button');
-    btnEliminar.textContent = '❌';
-    btnEliminar.onclick = () => eliminarGasto(index);
-    li.appendChild(btnEliminar);
-
     listaGastos.appendChild(li);
   });
-  guardarGastos();
-  actualizarGrafico();
 }
 
 function actualizarTotal() {
   const total = gastos.reduce((sum, gasto) => sum + gasto.cantidad, 0);
   totalSpan.textContent = total.toFixed(2);
 }
-
-function eliminarGasto(index) {
-  gastos.splice(index, 1);
-  actualizarLista();
-  actualizarTotal();
-  guardarGastos();
-}
-
-function guardarGastos() {
-  db.collection("gastos").add({
-  descripcion: gasto.descripcion,
-  cantidad: gasto.cantidad,
-  categoria: gasto.categoria,
-  fecha: new Date()
-})
-.then(() => {
-  console.log("✅ Gasto guardado en Firebase");
-})
-.catch((error) => {
-  console.error("❌ Error al guardar en Firebase: ", error);
-});
-
-db.collection("gastos").get().then((querySnapshot) => {
-  gastos = [];
-  querySnapshot.forEach((doc) => {
-    gastos.push(doc.data());
-  });
-  actualizarLista();
-  actualizarTotal();
-  actualizarGrafico();
-});
-
-}
-
-function cargarGastos() {
-  const data = localStorage.getItem('gastos');
-  if (data) {
-    gastos = JSON.parse(data);
-    actualizarLista();
-    actualizarTotal();
-    actualizarGrafico();
-  }
-}
-
-let grafico;
 
 function actualizarGrafico() {
   const categorias = {};
@@ -103,7 +75,6 @@ function actualizarGrafico() {
     categorias[gasto.categoria] += gasto.cantidad;
   });
 
-  const ctx = document.getElementById('graficoCategorias');
   if (!ctx) return;
   const context = ctx.getContext('2d');
 
