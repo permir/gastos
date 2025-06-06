@@ -3,14 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Control de Gastos con Firebase</title>
+  <title>Control de Gastos con Login</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
     <h1>Control de Gastos</h1>
 
-    <form id="form-gasto">
+    <button id="loginBtn">Iniciar sesión con Google</button>
+    <button id="logoutBtn" style="display:none;">Cerrar sesión</button>
+
+    <form id="form-gasto" style="display:none;">
       <select id="categoria" required>
         <option value="">Categoría</option>
         <option value="Comida">Comida</option>
@@ -31,28 +34,25 @@
     <canvas id="graficoCategorias" width="400" height="400"></canvas>
   </div>
 
-  <!-- 1) Carga del SDK de Firebase en modo Compat (namespaced) -->
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
-  <!-- 2) Inicialización de Firebase (reemplaza con tu configuración) -->
   <script>
     const firebaseConfig = {
-      apiKey: "AIzaSyB8QhY-0qxzehw1bF4oteNTiCG3qwuDZ7c",
-  authDomain: "control-de-gastos-46e76.firebaseapp.com",
-  projectId: "control-de-gastos-46e76",
-  storageBucket: "control-de-gastos-46e76.firebasestorage.app",
-  messagingSenderId: "327038363744",
-  appId: "1:327038363744:web:b2d01a351a8d0aaf5ffb05",
-  measurementId: "G-X3RZP9FGQ5"
+      apiKey: "TU_API_KEY",
+      authDomain: "TU_DOMINIO.firebaseapp.com",
+      projectId: "TU_PROJECT_ID",
+      storageBucket: "TU_BUCKET.appspot.com",
+      messagingSenderId: "XXXXXXXXXX",
+      appId: "XXXXXXXXXX"
     };
-    // Inicializa Firebase
     firebase.initializeApp(firebaseConfig);
-    // Obtén la referencia a Firestore
     const db = firebase.firestore();
+    const auth = firebase.auth();
   </script>
 
-  <!-- 3) Carga de Chart.js y tu código -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="app.js"></script>
 </body>
