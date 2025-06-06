@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Control de Gastos</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Control de Gastos</h1>
+
+    <form id="form-gasto">
+      <select id="categoria" required>
+        <option value="">Categoría</option>
+        <option value="Comida">Comida</option>
+        <option value="Transporte">Transporte</option>
+        <option value="Entretenimiento">Entretenimiento</option>
+        <option value="Salud">Salud</option>
+        <option value="Otros">Otros</option>
+      </select>
+      <input type="text" id="descripcion" placeholder="Descripción" required />
+      <input type="number" id="cantidad" placeholder="Cantidad" required />
+      <button type="submit">Agregar</button>
+    </form>
+
+    <ul id="lista-gastos"></ul>
+
+    <h2>Total: $<span id="total">0</span></h2>
+
+    <canvas id="graficoCategorias" width="400" height="400"></canvas>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
