@@ -31,23 +31,28 @@
     <canvas id="graficoCategorias" width="400" height="400"></canvas>
   </div>
 
-  <!-- Firebase v9+ “compat” (namespaced) -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <!-- 1) Carga del SDK de Firebase en modo Compat (namespaced) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <!-- 2) Inicialización de Firebase (reemplaza con tu configuración) -->
   <script>
     const firebaseConfig = {
-    apiKey: "AIzaSyB8QhY-0qxzehw1bF4oteNTiCG3qwuDZ7c",
-    authDomain: "control-de-gastos-46e76.firebaseapp.com",
-    projectId: "control-de-gastos-46e76",
-    storageBucket: "control-de-gastos-46e76.firebasestorage.app",
-    messagingSenderId: "327038363744",
-    appId: "1:327038363744:web:b2d01a351a8d0aaf5ffb05",
-    measurementId: "G-X3RZP9FGQ5"
+      apiKey: "AIzaSyB8QhY-0qxzehw1bF4oteNTiCG3qwuDZ7c",
+  authDomain: "control-de-gastos-46e76.firebaseapp.com",
+  projectId: "control-de-gastos-46e76",
+  storageBucket: "control-de-gastos-46e76.firebasestorage.app",
+  messagingSenderId: "327038363744",
+  appId: "1:327038363744:web:b2d01a351a8d0aaf5ffb05",
+  measurementId: "G-X3RZP9FGQ5"
     };
-    const app = firebase.initializeApp(firebaseConfig);
+    // Inicializa Firebase
+    firebase.initializeApp(firebaseConfig);
+    // Obtén la referencia a Firestore
     const db = firebase.firestore();
   </script>
 
+  <!-- 3) Carga de Chart.js y tu código -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="app.js"></script>
 </body>
