@@ -57,7 +57,22 @@ function eliminarGasto(index) {
 }
 
 function guardarGastos() {
-  localStorage.setItem('gastos', JSON.stringify(gastos));
+  db.collection("gastos").add({
+  descripcion: gasto.descripcion,
+  cantidad: gasto.cantidad,
+  categoria: gasto.categoria,
+  fecha: new Date()
+});
+db.collection("gastos").get().then((querySnapshot) => {
+  gastos = [];
+  querySnapshot.forEach((doc) => {
+    gastos.push(doc.data());
+  });
+  actualizarLista();
+  actualizarTotal();
+  actualizarGrafico();
+});
+
 }
 
 function cargarGastos() {
