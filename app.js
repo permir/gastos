@@ -1,3 +1,4 @@
+// Obtén referencias a elementos del DOM
 const form = document.getElementById('form-gasto');
 const descripcionInput = document.getElementById('descripcion');
 const cantidadInput = document.getElementById('cantidad');
@@ -9,6 +10,7 @@ const ctx = document.getElementById('graficoCategorias');
 let gastos = [];
 let grafico;
 
+// Cuando se envía el formulario:
 form.addEventListener('submit', function (e) {
   e.preventDefault();
 
@@ -24,21 +26,24 @@ form.addEventListener('submit', function (e) {
       fecha: new Date()
     };
 
+    // Guarda en Firestore
     db.collection("gastos").add(gasto)
       .then(() => {
         console.log("✅ Gasto guardado en Firebase");
-        cargarGastos();  // recargar lista
+        cargarGastos();  // volver a cargar la lista y gráfica
       })
       .catch((error) => {
         console.error("❌ Error al guardar en Firebase: ", error);
       });
 
+    // Limpia los inputs
     descripcionInput.value = '';
     cantidadInput.value = '';
     categoriaInput.value = '';
   }
 });
 
+// Función para cargar todos los gastos desde Firestore
 function cargarGastos() {
   db.collection("gastos").orderBy("fecha", "desc").get()
     .then((querySnapshot) => {
@@ -49,9 +54,13 @@ function cargarGastos() {
       actualizarLista();
       actualizarTotal();
       actualizarGrafico();
+    })
+    .catch((error) => {
+      console.error("❌ Error al leer gastos de Firebase: ", error);
     });
 }
 
+// Función para actualizar la lista visible en pantalla
 function actualizarLista() {
   listaGastos.innerHTML = '';
   gastos.forEach((gasto) => {
@@ -61,11 +70,13 @@ function actualizarLista() {
   });
 }
 
+// Función para actualizar el total
 function actualizarTotal() {
   const total = gastos.reduce((sum, gasto) => sum + gasto.cantidad, 0);
   totalSpan.textContent = total.toFixed(2);
 }
 
+// Función para actualizar el gráfico con Chart.js
 function actualizarGrafico() {
   const categorias = {};
   gastos.forEach(gasto => {
@@ -102,4 +113,5 @@ function actualizarGrafico() {
   });
 }
 
+// Carga inicial de datos al abrir la página
 cargarGastos();
