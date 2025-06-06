@@ -62,7 +62,14 @@ function guardarGastos() {
   cantidad: gasto.cantidad,
   categoria: gasto.categoria,
   fecha: new Date()
+})
+.then(() => {
+  console.log("✅ Gasto guardado en Firebase");
+})
+.catch((error) => {
+  console.error("❌ Error al guardar en Firebase: ", error);
 });
+
 db.collection("gastos").get().then((querySnapshot) => {
   gastos = [];
   querySnapshot.forEach((doc) => {
