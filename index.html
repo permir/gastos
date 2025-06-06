@@ -32,6 +32,29 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyB8QhY-0qxzehw1bF4oteNTiCG3qwuDZ7c",
+    authDomain: "control-de-gastos-46e76.firebaseapp.com",
+    projectId: "control-de-gastos-46e76",
+    storageBucket: "control-de-gastos-46e76.firebasestorage.app",
+    messagingSenderId: "327038363744",
+    appId: "1:327038363744:web:c49eb0188be406845ffb05",
+    measurementId: "G-8NL5T55GGG"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
   <script src="app.js"></script>
 </body>
 </html>
